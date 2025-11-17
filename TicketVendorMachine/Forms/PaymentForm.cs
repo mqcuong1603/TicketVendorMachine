@@ -57,14 +57,14 @@ namespace TicketVendorMachine.Forms
         {
             try
             {
-                // Hide payment buttons
-                btnCreditCard.Visible = false;
-                btnQRCode.Visible = false;
+                // Hide payment panel
+                panelPayment.Visible = false;
 
                 // Show QR code
                 pictureBoxQR.Visible = true;
+                lblQRInstruction.Visible = true;
                 lblQRInstruction.Text = "Scan this QR code with Momo/ZaloPay/VNPay app";
-                lblQRInstruction.ForeColor = Color.Blue;
+                lblQRInstruction.ForeColor = Color.FromArgb(52, 152, 219);
 
                 // Generate QR Code
                 string paymentInfo = $"AMOUNT:{selectedDestination.Price}|DEST:{selectedDestination.DestinationName}|CODE:{GenerateTicketCode()}";
