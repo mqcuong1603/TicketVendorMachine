@@ -14,12 +14,18 @@ namespace TicketVendorMachine.Forms
         public DestinationSelectionForm()
         {
             InitializeComponent();
+            btnSelectDestination.Enabled = false; // Disable until selection
             LoadDestinations();
         }
 
         private void LoadDestinations()
         {
             destinations = new List<Destination>();
+
+            // Show loading message
+            lblSelectedDestination.Text = "Loading destinations...";
+            lblSelectedDestination.ForeColor = System.Drawing.Color.FromArgb(52, 152, 219);
+            lblSelectedPrice.Text = "";
 
             string query = "SELECT * FROM Destinations WHERE IsActive = 1";
 
@@ -49,10 +55,33 @@ namespace TicketVendorMachine.Forms
                 // Bind to ListBox
                 listBoxDestinations.DataSource = destinations;
                 listBoxDestinations.DisplayMember = "DestinationName";
+
+                // Update status
+                if (destinations.Count > 0)
+                {
+                    lblSelectedDestination.Text = $"{destinations.Count} destinations available";
+                    lblSelectedDestination.ForeColor = System.Drawing.Color.FromArgb(46, 204, 113);
+                    lblSelectedPrice.Text = "Select a destination from the list";
+                    lblSelectedPrice.ForeColor = System.Drawing.Color.FromArgb(127, 140, 141);
+                }
+                else
+                {
+                    lblSelectedDestination.Text = "No destinations available";
+                    lblSelectedDestination.ForeColor = System.Drawing.Color.FromArgb(231, 76, 60);
+                    lblSelectedPrice.Text = "Please contact support";
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading destinations: {ex.Message}", "Error");
+                MessageBox.Show(
+                    $"Unable to load destinations.\n\nError Details: {ex.Message}\n\nPlease try again or contact support.",
+                    "Loading Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                lblSelectedDestination.Text = "Error loading destinations";
+                lblSelectedDestination.ForeColor = System.Drawing.Color.FromArgb(231, 76, 60);
+                btnSelectDestination.Enabled = false;
             }
         }
 
@@ -61,8 +90,15 @@ namespace TicketVendorMachine.Forms
             if (listBoxDestinations.SelectedItem != null)
             {
                 var selected = (Destination)listBoxDestinations.SelectedItem;
-                lblSelectedDestination.Text = $"Selected: {selected.DestinationName}";
-                lblSelectedPrice.Text = $"Price: {selected.Price:N0} VND";
+                lblSelectedDestination.Text = $"✓ {selected.DestinationName}";
+                lblSelectedDestination.ForeColor = System.Drawing.Color.FromArgb(52, 73, 94);
+                lblSelectedPrice.Text = $"{selected.Price:N0} VND";
+                lblSelectedPrice.ForeColor = System.Drawing.Color.FromArgb(46, 204, 113);
+                btnSelectDestination.Enabled = true;
+            }
+            else
+            {
+                btnSelectDestination.Enabled = false;
             }
         }
 
@@ -70,16 +106,40 @@ namespace TicketVendorMachine.Forms
         {
             if (listBoxDestinations.SelectedItem != null)
             {
-                var selected = (Destination)listBoxDestinations.SelectedItem;
-                PaymentForm paymentForm = new PaymentForm(selected);
-                this.Hide();
-                paymentForm.ShowDialog();
-                this.Close();
+                // Disable button to prevent double-click
+                btnSelectDestination.Enabled = false;
+                btnSelectDestination.Text = "LOADING...";
+                btnBack.Enabled = false;
+
+                try
+                {
+                    var selected = (Destination)listBoxDestinations.SelectedItem;
+                    PaymentForm paymentForm = new PaymentForm(selected);
+                    this.Hide();
+                    paymentForm.ShowDialog();
+                    this.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        $"An error occurred.\n\nError: {ex.Message}",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                    btnSelectDestination.Enabled = true;
+                    btnSelectDestination.Text = "SELECT DESTINATION";
+                    btnBack.Enabled = true;
+                }
             }
             else
             {
-                MessageBox.Show("Please select a destination!", "Warning",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Please select a destination from the list before continuing.",
+                    "No Selection",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
             }
         }
 

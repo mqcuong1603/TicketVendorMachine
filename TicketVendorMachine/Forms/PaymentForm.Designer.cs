@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.lblTitle = new System.Windows.Forms.Label();
+            this.lblStepIndicator = new System.Windows.Forms.Label();
             this.lblQRInstruction = new System.Windows.Forms.Label();
             this.lblDestination = new System.Windows.Forms.Label();
             this.lblPrice = new System.Windows.Forms.Label();
@@ -48,12 +49,24 @@
             this.lblTitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
-            this.lblTitle.Location = new System.Drawing.Point(150, 20);
+            this.lblTitle.Location = new System.Drawing.Point(150, 10);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(500, 50);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Select Payment Method";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            //
+            // lblStepIndicator
+            //
+            this.lblStepIndicator.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblStepIndicator.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStepIndicator.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
+            this.lblStepIndicator.Location = new System.Drawing.Point(150, 55);
+            this.lblStepIndicator.Name = "lblStepIndicator";
+            this.lblStepIndicator.Size = new System.Drawing.Size(500, 25);
+            this.lblStepIndicator.TabIndex = 10;
+            this.lblStepIndicator.Text = "Step 2 of 3 - Complete your payment";
+            this.lblStepIndicator.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             //
             // lblQRInstruction
             //
@@ -195,11 +208,12 @@
             this.Controls.Add(this.panelPayment);
             this.Controls.Add(this.panelInfo);
             this.Controls.Add(this.btnBack);
+            this.Controls.Add(this.lblStepIndicator);
             this.Controls.Add(this.lblTitle);
             this.MinimumSize = new System.Drawing.Size(800, 450);
             this.Name = "PaymentForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Payment";
+            this.Text = "Step 2/3 - Payment";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxQR)).EndInit();
             this.panelInfo.ResumeLayout(false);
             this.panelInfo.PerformLayout();
@@ -211,6 +225,7 @@
         #endregion
 
         private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Label lblStepIndicator;
         private System.Windows.Forms.Label lblQRInstruction;
         private System.Windows.Forms.Label lblDestination;
         private System.Windows.Forms.Label lblPrice;

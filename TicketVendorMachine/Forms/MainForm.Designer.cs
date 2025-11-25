@@ -30,6 +30,7 @@
         {
             this.lblTitle = new System.Windows.Forms.Label();
             this.lblInstructions = new System.Windows.Forms.Label();
+            this.lblSubtitle = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
             this.btnStart = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
@@ -51,16 +52,28 @@
             this.lblTitle.Text = "Ticket Vendor Machine";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             //
+            // lblSubtitle
+            //
+            this.lblSubtitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblSubtitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
+            this.lblSubtitle.Location = new System.Drawing.Point(150, 90);
+            this.lblSubtitle.Name = "lblSubtitle";
+            this.lblSubtitle.Size = new System.Drawing.Size(500, 30);
+            this.lblSubtitle.TabIndex = 7;
+            this.lblSubtitle.Text = "Quick, Easy, and Secure Ticket Purchasing";
+            this.lblSubtitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            //
             // lblInstructions
             //
             this.lblInstructions.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lblInstructions.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInstructions.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInstructions.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(94)))));
-            this.lblInstructions.Location = new System.Drawing.Point(150, 100);
+            this.lblInstructions.Location = new System.Drawing.Point(100, 120);
             this.lblInstructions.Name = "lblInstructions";
-            this.lblInstructions.Size = new System.Drawing.Size(500, 40);
+            this.lblInstructions.Size = new System.Drawing.Size(600, 25);
             this.lblInstructions.TabIndex = 1;
-            this.lblInstructions.Text = "Welcome! Press START to begin purchasing a ticket";
+            this.lblInstructions.Text = "Press START button to begin your journey";
             this.lblInstructions.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             //
             // lblStatus
@@ -142,6 +155,7 @@
             this.ClientSize = new System.Drawing.Size(800, 470);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.lblStatus);
+            this.Controls.Add(this.lblSubtitle);
             this.Controls.Add(this.lblInstructions);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.panelMain);
@@ -160,6 +174,7 @@
 
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Label lblInstructions;
+        private System.Windows.Forms.Label lblSubtitle;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Button btnExit;

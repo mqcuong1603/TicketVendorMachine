@@ -21,10 +21,10 @@ namespace TicketVendorMachine.Forms
 
         private void DisplayTicket()
         {
-            lblTicketCode.Text = $"Ticket Code: {ticketCode}";
-            lblDestination.Text = $"Destination: {destination.DestinationName}";
-            lblPrice.Text = $"Price: {destination.Price:N0} VND";
-            lblIssueDate.Text = $"Issue Date: {DateTime.Now:yyyy-MM-dd HH:mm:ss}";
+            lblTicketCode.Text = $"{ticketCode}";
+            lblDestination.Text = $"📍 Destination: {destination.DestinationName}";
+            lblPrice.Text = $"💰 Price: {destination.Price:N0} VND";
+            lblIssueDate.Text = $"🕒 Issued: {DateTime.Now:yyyy-MM-dd HH:mm:ss}";
 
             // Generate barcode/QR for ticket
             GenerateTicketBarcode();
@@ -50,23 +50,38 @@ namespace TicketVendorMachine.Forms
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(
-                "Printing ticket...\n\n" +
-                $"Ticket Code: {ticketCode}\n" +
-                $"Destination: {destination.DestinationName}\n" +
-                $"Price: {destination.Price:N0} VND\n\n" +
-                "(This is a printer simulation)",
-                "Print Ticket",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            );
+            // Disable button during print
+            btnPrint.Enabled = false;
+            btnPrint.Text = "PRINTING...";
+
+            try
+            {
+                MessageBox.Show(
+                    "🖨️ Printing Your Ticket\n\n" +
+                    $"Ticket Code: {ticketCode}\n" +
+                    $"Destination: {destination.DestinationName}\n" +
+                    $"Price: {destination.Price:N0} VND\n" +
+                    $"Date: {DateTime.Now:yyyy-MM-dd HH:mm:ss}\n\n" +
+                    "✓ Print completed successfully!\n\n" +
+                    "(This is a printer simulation)",
+                    "Print Ticket",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }
+            finally
+            {
+                btnPrint.Enabled = true;
+                btnPrint.Text = "PRINT TICKET";
+            }
         }
 
         private void btnFinish_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show(
-                "Are you sure you want to finish and return to main menu?",
-                "Confirm",
+                "Thank you for using our Ticket Vendor Machine!\n\n" +
+                "Would you like to return to the main menu?",
+                "Return to Main Menu",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
             );

@@ -28,28 +28,67 @@ namespace TicketVendorMachine.Forms
 
         private void btnCreditCard_Click(object sender, EventArgs e)
         {
-            // Show credit card input dialog
-            string cardNumber = Microsoft.VisualBasic.Interaction.InputBox(
-                "Enter Credit Card Number (16 digits):",
-                "Credit Card Payment",
-                "");
+            // Disable buttons during processing
+            btnCreditCard.Enabled = false;
+            btnQRCode.Enabled = false;
+            btnBack.Enabled = false;
 
-            if (!string.IsNullOrEmpty(cardNumber))
+            try
             {
-                // Validate card number (basic check)
-                if (cardNumber.Length == 16)
+                // Show credit card input dialog
+                string cardNumber = Microsoft.VisualBasic.Interaction.InputBox(
+                    "Enter your Credit Card Number:\n\n(16 digits, no spaces)\n\nExample: 1234567890123456",
+                    "Credit Card Payment",
+                    "");
+
+                if (!string.IsNullOrEmpty(cardNumber))
                 {
-                    ProcessPayment("CreditCard", cardNumber);
+                    // Remove spaces and dashes
+                    cardNumber = cardNumber.Replace(" ", "").Replace("-", "");
+
+                    // Validate card number (basic check)
+                    if (cardNumber.Length == 16 && long.TryParse(cardNumber, out _))
+                    {
+                        ProcessPayment("CreditCard", cardNumber);
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            "Invalid credit card number!\n\nPlease enter exactly 16 digits.\nExample: 1234567890123456",
+                            "Invalid Card Number",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+                        // Re-enable buttons
+                        btnCreditCard.Enabled = true;
+                        btnQRCode.Enabled = true;
+                        btnBack.Enabled = true;
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Invalid card number!", "Error");
+                    // User cancelled - re-enable buttons
+                    btnCreditCard.Enabled = true;
+                    btnQRCode.Enabled = true;
+                    btnBack.Enabled = true;
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                btnCreditCard.Enabled = true;
+                btnQRCode.Enabled = true;
+                btnBack.Enabled = true;
             }
         }
 
         private void btnQRCode_Click(object sender, EventArgs e)
         {
+            // Disable buttons during processing
+            btnCreditCard.Enabled = false;
+            btnQRCode.Enabled = false;
+            btnBack.Enabled = false;
+
             GenerateQRCode();
         }
 
@@ -63,7 +102,7 @@ namespace TicketVendorMachine.Forms
                 // Show QR code
                 pictureBoxQR.Visible = true;
                 lblQRInstruction.Visible = true;
-                lblQRInstruction.Text = "Scan this QR code with Momo/ZaloPay/VNPay app";
+                lblQRInstruction.Text = "📱 Scan QR Code with Your Payment App\n\nSupported: Momo / ZaloPay / VNPay";
                 lblQRInstruction.ForeColor = Color.FromArgb(52, 152, 219);
 
                 // Generate QR Code
@@ -76,21 +115,50 @@ namespace TicketVendorMachine.Forms
 
                 pictureBoxQR.Image = qrCodeImage;
 
+                // Show countdown timer
+                int countdown = 5;
+                Timer countdownTimer = new Timer();
+                countdownTimer.Interval = 1000; // 1 second
+                countdownTimer.Tick += (s, e) =>
+                {
+                    countdown--;
+                    if (countdown > 0)
+                    {
+                        lblQRInstruction.Text = $"📱 Scan QR Code with Your Payment App\n\nSupported: Momo / ZaloPay / VNPay\n\n⏱ Processing payment in {countdown} seconds...";
+                    }
+                    else
+                    {
+                        countdownTimer.Stop();
+                        lblQRInstruction.Text = "✓ Processing payment...";
+                        lblQRInstruction.ForeColor = Color.FromArgb(46, 204, 113);
+                    }
+                };
+                countdownTimer.Start();
+
                 // Simulate payment processing after 5 seconds
                 Timer timer = new Timer();
                 timer.Interval = 5000; // 5 seconds
                 timer.Tick += (s, e) =>
                 {
                     timer.Stop();
+                    countdownTimer.Stop();
                     ProcessPayment("QRCode", paymentInfo);
                 };
                 timer.Start();
-
-                lblQRInstruction.Text += "\n\nProcessing payment...";
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error generating QR code: {ex.Message}", "Error");
+                MessageBox.Show(
+                    $"Unable to generate QR code.\n\nError: {ex.Message}\n\nPlease try again or use a different payment method.",
+                    "QR Code Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                // Re-enable buttons
+                panelPayment.Visible = true;
+                btnCreditCard.Enabled = true;
+                btnQRCode.Enabled = true;
+                btnBack.Enabled = true;
             }
         }
 
@@ -121,8 +189,17 @@ namespace TicketVendorMachine.Forms
                     }
                 }
 
-                MessageBox.Show($"Payment Successful!\n\nTicket Code: {ticketCode}\nDestination: {selectedDestination.DestinationName}\nPrice: {selectedDestination.Price:N0} VND",
-                    "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    $"✓ Payment Successful!\n\n" +
+                    $"Ticket Code: {ticketCode}\n" +
+                    $"Destination: {selectedDestination.DestinationName}\n" +
+                    $"Amount Paid: {selectedDestination.Price:N0} VND\n" +
+                    $"Payment Method: {paymentMethod}\n\n" +
+                    $"Your ticket is ready!",
+                    "Payment Successful",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
 
                 // Open ticket display form
                 TicketDisplayForm ticketForm = new TicketDisplayForm(ticketCode, selectedDestination);
@@ -132,7 +209,23 @@ namespace TicketVendorMachine.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Payment failed: {ex.Message}", "Error");
+                MessageBox.Show(
+                    $"Payment Processing Failed\n\n" +
+                    $"Error Details: {ex.Message}\n\n" +
+                    $"Your payment has not been charged.\n" +
+                    $"Please try again or contact support.",
+                    "Payment Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                // Re-enable buttons
+                panelPayment.Visible = true;
+                pictureBoxQR.Visible = false;
+                lblQRInstruction.Visible = false;
+                btnCreditCard.Enabled = true;
+                btnQRCode.Enabled = true;
+                btnBack.Enabled = true;
             }
         }
 

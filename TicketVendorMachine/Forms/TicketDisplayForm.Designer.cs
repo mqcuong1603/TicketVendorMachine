@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.lblTitle = new System.Windows.Forms.Label();
+            this.lblStepIndicator = new System.Windows.Forms.Label();
             this.lblTicketCode = new System.Windows.Forms.Label();
             this.lblDestination = new System.Windows.Forms.Label();
             this.lblPrice = new System.Windows.Forms.Label();
@@ -50,12 +51,24 @@
             this.lblTitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
-            this.lblTitle.Location = new System.Drawing.Point(50, 20);
+            this.lblTitle.Location = new System.Drawing.Point(50, 10);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(500, 50);
             this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "Your Ticket";
+            this.lblTitle.Text = "✓ Ticket Issued Successfully";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            //
+            // lblStepIndicator
+            //
+            this.lblStepIndicator.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblStepIndicator.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStepIndicator.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.lblStepIndicator.Location = new System.Drawing.Point(50, 55);
+            this.lblStepIndicator.Name = "lblStepIndicator";
+            this.lblStepIndicator.Size = new System.Drawing.Size(500, 25);
+            this.lblStepIndicator.TabIndex = 12;
+            this.lblStepIndicator.Text = "Step 3 of 3 - Your ticket is ready!";
+            this.lblStepIndicator.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             //
             // lblTicketCode
             //
@@ -202,11 +215,12 @@
             this.Controls.Add(this.panelTicket);
             this.Controls.Add(this.btnFinish);
             this.Controls.Add(this.btnPrint);
+            this.Controls.Add(this.lblStepIndicator);
             this.Controls.Add(this.lblTitle);
             this.MinimumSize = new System.Drawing.Size(600, 700);
             this.Name = "TicketDisplayForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Ticket Display";
+            this.Text = "Step 3/3 - Your Ticket";
             this.panelTicketInfo.ResumeLayout(false);
             this.panelTicketInfo.PerformLayout();
             this.groupBoxBarcode.ResumeLayout(false);
@@ -219,6 +233,7 @@
         #endregion
 
         private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Label lblStepIndicator;
         private System.Windows.Forms.Label lblTicketCode;
         private System.Windows.Forms.Label lblDestination;
         private System.Windows.Forms.Label lblPrice;

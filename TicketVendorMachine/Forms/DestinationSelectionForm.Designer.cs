@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.lblTitle = new System.Windows.Forms.Label();
+            this.lblStepIndicator = new System.Windows.Forms.Label();
             this.listBoxDestinations = new System.Windows.Forms.ListBox();
             this.lblSelectedDestination = new System.Windows.Forms.Label();
             this.lblSelectedPrice = new System.Windows.Forms.Label();
@@ -45,12 +46,24 @@
             this.lblTitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
-            this.lblTitle.Location = new System.Drawing.Point(150, 20);
+            this.lblTitle.Location = new System.Drawing.Point(150, 10);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(500, 50);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Select Your Destination";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            //
+            // lblStepIndicator
+            //
+            this.lblStepIndicator.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblStepIndicator.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStepIndicator.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
+            this.lblStepIndicator.Location = new System.Drawing.Point(150, 55);
+            this.lblStepIndicator.Name = "lblStepIndicator";
+            this.lblStepIndicator.Size = new System.Drawing.Size(500, 25);
+            this.lblStepIndicator.TabIndex = 8;
+            this.lblStepIndicator.Text = "Step 1 of 3 - Choose where you want to go";
+            this.lblStepIndicator.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             //
             // listBoxDestinations
             //
@@ -166,11 +179,12 @@
             this.Controls.Add(this.panelSelection);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.btnSelectDestination);
+            this.Controls.Add(this.lblStepIndicator);
             this.Controls.Add(this.lblTitle);
             this.MinimumSize = new System.Drawing.Size(800, 450);
             this.Name = "DestinationSelectionForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Select Destination";
+            this.Text = "Step 1/3 - Select Destination";
             this.panelSelection.ResumeLayout(false);
             this.panelInfo.ResumeLayout(false);
             this.panelInfo.PerformLayout();
@@ -181,6 +195,7 @@
         #endregion
 
         private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Label lblStepIndicator;
         private System.Windows.Forms.ListBox listBoxDestinations;
         private System.Windows.Forms.Label lblSelectedDestination;
         private System.Windows.Forms.Label lblSelectedPrice;
